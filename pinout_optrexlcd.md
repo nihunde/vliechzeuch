@@ -1,4 +1,6 @@
 Datasheet Controller: https://www.lcd-module.de/eng/pdf/zubehoer/hd61202.pdf
+
+Pinout LCD-Board (Optrex mit 2x HD61202)
 ```
 1 VCC,V1R,V1L 3,7,74
 2 ADC,GND,CS1 1,78,92
@@ -17,8 +19,9 @@ Datasheet Controller: https://www.lcd-module.de/eng/pdf/zubehoer/hd61202.pdf
 15 DB6 85
 16 DB7 86
 ```
+
+Verbindung Arduino - GLCD-Board
 ```
-Verbindung Arduino . glcd board
 Vcc 1
 GND 2
 D12 16
