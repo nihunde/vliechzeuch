@@ -1,9 +1,10 @@
+Datasheet Controller: https://www.lcd-module.de/eng/pdf/zubehoer/hd61202.pdf
 ```
 1 VCC,V1R,V1L 3,7,74
 2 ADC,GND,CS1 1,78,92
-3 NC
-4 NC
-5 NC
+3 Reset
+4 EN
+5 CS3
 6 CS2 91
 7 R/W 94
 8 D/I 95
@@ -16,7 +17,7 @@
 15 DB6 85
 16 DB7 86
 ```
-
+```
 Verbindung Arduino . glcd board
 Vcc 1
 GND 2
@@ -31,3 +32,4 @@ D05 09
 D04 08
 D03 07
 D02 06
+```
