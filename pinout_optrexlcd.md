@@ -16,3 +16,18 @@
 15 DB6 85
 16 DB7 86
 ```
+
+Verbindung Arduino . glcd board
+Vcc 1
+GND 2
+D12 16
+D11 15
+D10 14
+D09 13
+D08 12 
+D07 11
+D06 10
+D05 09
+D04 08
+D03 07
+D02 06
