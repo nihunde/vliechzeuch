@@ -4,9 +4,9 @@ Pinout LCD-Board (Optrex mit 2x HD61202)
 ```
 1 VCC,V1R,V1L 3,7,74
 2 ADC,GND,CS1 1,78,92
-3 Reset
-4 EN
-5 CS3
+!gebraten 3 Reset
+!gebraten 4 EN
+!gebraten 5 CS3
 6 CS2 91
 7 R/W 94
 8 D/I 95
