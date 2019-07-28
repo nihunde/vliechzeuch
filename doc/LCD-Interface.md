@@ -16,15 +16,16 @@ Command: <opcode><paramLength><params>\r\n bzw. <opcode>\r\n
 ## Raspi to Phone
 OpCode | Command | WithParam | Maxlength | What to display
 :---: | --- | :---: | :---: | ---
-0x41 | Idle | No | 0 | Fairydust spinning
-0x42 | CallIncoming | Yes | 255 | number and/or name of caller 
-0x43 | Dialing | No | 0 | earpiece Icon and number to dial
-0x44 | Calling | No | 0 | earpiece Icon and number to dial
-0x45 | Active Call | No | 0 | earpiece Icon and number of call partner
-0x46 | End Call | Yes | 255 | number called and call duration (if possible)
-0x47 | Easteregg | Yes | 4 | Position Paddle(own and competitor) and x-y-coord. of ball 
-0x48 | Debug | Yes | 255 | shows debug info from RasPi
-0x49 | ScreenLock | No | 0 | like Nokia phone
+0x41 | OK | No | 0 | Command successfull!
+0x42 | Idle | No | 0 | Fairydust spinning
+0x43 | CallIncoming | Yes | 255 | number and/or name of caller 
+0x44 | Dialing | No | 0 | earpiece Icon and number to dial
+0x45 | Calling | No | 0 | earpiece Icon and number to dial
+0x46 | Active Call | No | 0 | earpiece Icon and number of call partner
+0x47 | End Call | Yes | 255 | number called and call duration (if possible)
+0x48 | Easteregg | Yes | 4 | Position Paddle(own and competitor) and x-y-coord. of ball 
+0x49 | Debug | Yes | 255 | shows debug info from RasPi
+0x4a | ScreenLock | No | 0 | like Nokia phone
 
 ## Phone to RasPi
 OpCode | Command | WithParam | Maxlength | Comment
