@@ -1,173 +1,109 @@
 from typing import Tuple, Optional
-from enum import Enum, unique as unique_enum
+
+from adt import adt, Case
 
 import serial
 
 
-@unique_enum
-class AtrMessageType(Enum):
-    OK = 0x61   # 'A'
-    ERROR = 0x62
-    DIAL_NUMBER = 0x63
-    ACCEPT = 0x64
-    DECLINE = 0x65
-    CALL_END = 0x66
-    EASTEREGG_UP = 0x67
-    EASTEREGG_DOWN = 0x68
+def log(x):
+    print(f"[LOG]   {x!r}")
+    return x
 
 
-_MAX_LENGTH_ATR = {
-    AtrMessageType.OK: 0,
-    AtrMessageType.ERROR: 255,
-    AtrMessageType.DIAL_NUMBER: 255,
-    AtrMessageType.ACCEPT: 0,
-    AtrMessageType.DECLINE: 0,
-    AtrMessageType.CALL_END: 0,
-    AtrMessageType.EASTEREGG_UP: 0,
-    AtrMessageType.EASTEREGG_DOWN: 0,
-}
+@adt
+class RtaMessage(object):
+    OK: Case
+    IDLE: Case
+    CALL_INCOMING: Case[bytes]  # number or name calling
+    DIALLING: Case
+    CALLING: Case
+    ACTIVE_CALL: Case
+    END_CALL: Case[bytes, bytes]  # number or name called and duration (preformatted). The first argument is not allowed to include a colon.
+    EASTEREGG: Case[int, int, int, int]  # position own, position enemy, x, y
+    DEBUG: Case[bytes]
+    SCREEN_LOCK: Case
 
 
-@unique_enum
-class RtaMessageType(Enum):
-    OK = 0x41  # 'a'
-    IDLE = 0x42
-    CALL_INCOMING = 0x43
-    DIALLING = 0x44
-    CALLING = 0x45
-    ACTIVE_CALL = 0x46
-    END_CALL = 0x47
-    EASTEREGG = 0x48
-    DEBUG = 0x49
-    SCREEN_LOCK = 0x4a
-
-
-_MAX_LENGTH_RTA = {
-    RtaMessageType.OK: 0,
-    RtaMessageType.IDLE: 0,
-    RtaMessageType.CALL_INCOMING: 255,
-    RtaMessageType.DIALLING: 0,
-    RtaMessageType.CALLING: 0,
-    RtaMessageType.ACTIVE_CALL: 0,
-    RtaMessageType.END_CALL: 255,
-    RtaMessageType.EASTEREGG: 4,
-    RtaMessageType.DEBUG: 255,
-    RtaMessageType.SCREEN_LOCK: 0,
-}
+@adt
+class AtrMessage(object):
+    OK: Case
+    ERROR: Case[bytes]
+    DIAL_NUMBER: Case[bytes]
+    ACCEPT: Case
+    DECLINE: Case
+    CALL_END: Case
+    EASTEREGG_UP: Case
+    EASTEREGG_DOWN: Case
 
 
 class ArduinoPart(object):
     def __init__(self, port: str, *, baudrate=9600):
-        self.serial = serial.Serial(port, timeout=0, baudrate=baudrate)
-        self._buffer = b""
-        self._read_buffer = []
+        self.serial = serial.Serial(port, timeout=None, baudrate=baudrate)
 
-    def _receive_internal(self) -> Optional[Tuple[AtrMessageType, bytes]]:
-        blocking = False
+    def step(self, command: Optional[RtaMessage]=None) -> Optional[AtrMessage]:
+        """
+        Sends the given command (or NUP if none was supplied) to the Arduino.
+        This blocks until the Arduino responds (usually with NUP, which would be mapped to `None`), this response is then returned.
+        """
+        def encode(command: Optional[RtaMessage]) -> bytes:
+            if command is None:
+                return b'\x5a'  # NUP
+            else:
+                return command.match(
+                    ok=lambda: b'\x41',
+                    idle=lambda: b'\x42',
+                    call_incoming=lambda caller: b'\x43' + caller,
+                    dialling=lambda: b'\x44',
+                    calling=lambda: b'\x45',
+                    active_call=lambda: b'\x46',
+                    end_call=lambda caller, duration: b'\x47' + caller + b':' + duration,
+                    easteregg=lambda p1, p2, bx, by: b'\x48' + bytes([p1, p2, bx, by]),
+                    debug=lambda msg: b'\x49' + msg,
+                    screen_lock=lambda: b'\x4a',
+                )
 
-        while True:
-            # this loop is escaped everywhere via a return, excluding
-            # the case in which a bare `b'\r\n'` was sent.
-
-            while b'\r\n' not in self._buffer:
-                next_bytes = self.serial.read(256)
-                # we need a maximum of 256 bytes either way.
-
-                if len(next_bytes) == 0:  # there was nothing received
-                    if not blocking:
-                        return None  # we're done.
-                else:
-                    self._buffer += next_bytes
-                    blocking = True
-
-            current, self._buffer = self._buffer.split(b'\r\n', 1)
-
-            if len(current) == 0:
-                continue # read again
-            
+        def decode(b: bytes) -> Optional[AtrMessage]:
             try:
-                command = AtrMessageType(current[0])
-            except ValueError:
-                raise ValueError(
-                    f"Unknown message type ({current!r} was received)"
-                )
+                out, expected_max_length = {
+                    0x61: lambda: (AtrMessage.OK(), 0),
+                    0x62: lambda: (AtrMessage.ERROR(b[1:]), 255),
+                    0x63: lambda: (AtrMessage.DIAL_NUMBER(b[1:]), 255),
+                    0x64: lambda: (AtrMessage.ACCEPT(), 0),
+                    0x65: lambda: (AtrMessage.DECLINE(), 0),
+                    0x66: lambda: (AtrMessage.CALL_END(), 0),
+                    0x67: lambda: (AtrMessage.EASTEREGG_UP(), 0),
+                    0x68: lambda: (AtrMessage.EASTEREGG_DOWN(), 0),
+                    0x7a: lambda: (None, 0),  # NUP
+                }[b[0]]()
+            except KeyError:
+                raise ValueError(f"Unknown command kind: 0x{b[0]:x} (data was {b!r})")
 
-            if len(current[1:]) > _MAX_LENGTH_ATR[command]:
-                raise ValueError(
-                    f"Excess data ({current[1:]!r}) was sent for {command!r} "
-                    + f"({len(current[1:])} > {_MAX_LENGTH_ATR[command]}"
-                )
+            if len(b) - 1 > expected_max_length:
+                raise ValueError(f"The given command ({out!r}) had unused data: {b[expected_max_length+1:]!r}")
 
-            return command, current[1:]
+            return out
 
-    def _send_internal(self, command: RtaMessageType, data: bytes=b"") -> None:
-        self.serial.write(bytes([command.value]) + data + b"\r\n")
+        encoded = encode(command)
+        if len(encoded) > 256:
+            raise ValueError(f"Couldn't encode command, since the associated data was too long")
+        if b'\r' in encoded or b'\n' in encoded:
+            raise ValueError(f"Newline characters were present in the associated data for the command")
+
+        self.serial.write(log(encoded + b"\r\n"))
         self.serial.flush()
 
-        kept_message_types = [AtrMessageType.ERROR]
-        
-        if command == RtaMessageType.EASTEREGG:
-            kept_message_types += [
-                AtrMessageType.EASTEREGG_UP,
-                AtrMessageType.EASTEREGG_DOWN
-            ]
+        buf = self.serial.read(3)
+        while b'\r' not in buf:
+            buf += self.serial.read(2)
+        if buf.endswith(b'\r'):
+            buf += self.serial.read(1)
 
-        self._read_buffer = [
-            i for i in self._read_buffer if i[0] in kept_message_types
-        ]
+        if not buf.endswith(b'\r\n'):
+            raise ValueError(f"The arduine sent a lone '\\r'. This error is potentially irrecoverable.")
 
-        if command not in [RtaMessageType.OK, RtaMessageType.DEBUG]:
-            while True:
-                msg = self._receive_internal()
-                if msg is not None:
-                    cmd, data = msg
-                    if cmd == AtrMessageType.OK:
-                        return
-                    elif cmd in kept_message_types:
-                        self._read_buffer.append((cmd, data))
+        log(buf)
 
-    def _receive_all_new(self):
-        while True:
-            x = self._receive_internal()
-            if x is None:
-                return
-            else:
-                self._read_buffer.append(x)
-
-    def send(self, command: RtaMessageType, data: bytes=b"") -> None:
-        """
-        `send` sends a message. This throws an error if supplied with
-        incorrect arguments. This blocks the current command gets an ok.
-        """
-
-        if not isinstance(command, RtaMessageType):
-            raise ValueError("Expected `command` to be `RtaMessageType`")
-        if not isinstance(data, bytes):
-            raise ValueError("Expected `data` to be `bytes`")
-        if len(data) > _MAX_LENGTH_RTA[command]:
-            raise ValueError(
-                f"`data` ({data!r}) is longer than it's allowed to be for "
-                + f"{command!r} ({len(data)} > {_MAX_LENGTH_RTA[command]})"
-            )
-
-        if command == RtaMessageType.OK:
-            print("Sending unexpected OK. This is probably a mistake.")
-
-        self._receive_all_new()  # to allow filtering
-        self._send_internal(command, data)
-
-    def receive(self) -> Optional[Tuple[AtrMessageType, bytes]]:
-        if self._read_buffer:
-            out = self._read_buffer.pop(0)
-        else:
-            out = self._receive_internal()
-
-        if out is not None:
-            if out[0] == AtrMessageType.OK:
-                print("Sent unexpected OK. This is probably a mistake.")
-            elif out[0] != AtrMessageType.ERROR:
-                self._send_internal(RtaMessageType.OK)
-        return out
+        return decode(buf[:-2].lstrip(b'\0'))
 
     def close(self) -> None:
         self.serial.close()
