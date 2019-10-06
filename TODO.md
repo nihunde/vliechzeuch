@@ -1,3 +1,4 @@
+
 - [ ] Logo durchoptimieren
 
 
@@ -9,4 +10,3 @@
 
 - [ ] Wie macht man die Kommunikation für das Easteregg am besten?
 - [ ] Soundkarten für Klingeln definieren
-
