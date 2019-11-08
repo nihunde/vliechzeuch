@@ -14,4 +14,4 @@ Dinge die noch drauf müssen
 - [ ] Connector für Display (16 Pins)
 - [ ] USB-A-Buchse unten zum Handy laden (nur Strom angeschlossen)
 - [ ] Connector für Display-Backlight
-- [ ] ...
+- [ ] Widerstandsnetzwerk nach https://playground.arduino.cc/Code/OneWireKeyPad/
