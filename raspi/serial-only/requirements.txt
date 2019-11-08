@@ -1,0 +1,2 @@
+pyserial==3.4
+algebraic-data-types==0.1.1
