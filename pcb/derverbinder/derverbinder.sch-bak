@@ -1,0 +1,314 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector:Conn_01x16_Male J1
+U 1 1 5DAD1789
+P 6450 3200
+F 0 "J1" H 6558 4081 50  0000 C CNN
+F 1 "Conn_01x16_Male" H 6558 3990 50  0000 C CNN
+F 2 "" H 6450 3200 50  0001 C CNN
+F 3 "~" H 6450 3200 50  0001 C CNN
+	1    6450 3200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 4000 6650 4000
+$Comp
+L MCU_Module:Arduino_Nano_v3.x A1
+U 1 1 5DB122CB
+P 6650 5450
+F 0 "A1" H 6650 4361 50  0000 C CNN
+F 1 "Arduino_Nano_v3.x" H 6650 4270 50  0000 C CNN
+F 2 "Module:Arduino_Nano" H 6800 4500 50  0001 L CNN
+F 3 "http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf" H 6650 4450 50  0001 C CNN
+	1    6650 5450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 5550 5600 5550
+Wire Wire Line
+	5600 4000 5600 5550
+Wire Wire Line
+	6150 5450 5650 5450
+Wire Wire Line
+	5650 5450 5650 3900
+Wire Wire Line
+	5650 3900 6650 3900
+Wire Wire Line
+	6150 5350 5700 5350
+Wire Wire Line
+	5700 5350 5700 3800
+Wire Wire Line
+	5700 3800 6650 3800
+Wire Wire Line
+	6150 5250 5750 5250
+Wire Wire Line
+	5750 5250 5750 3700
+Wire Wire Line
+	5750 3700 6650 3700
+Wire Wire Line
+	6650 3600 5800 3600
+Wire Wire Line
+	5800 3600 5800 5950
+Wire Wire Line
+	5800 5950 6150 5950
+Wire Wire Line
+	6150 5850 5850 5850
+Wire Wire Line
+	5850 5850 5850 3500
+Wire Wire Line
+	5850 3500 6650 3500
+Wire Wire Line
+	6650 3400 5900 3400
+Wire Wire Line
+	5900 3400 5900 5750
+Wire Wire Line
+	5900 5750 6150 5750
+Wire Wire Line
+	6150 5650 5950 5650
+Wire Wire Line
+	5950 5650 5950 3300
+Wire Wire Line
+	5950 3300 6650 3300
+Wire Wire Line
+	6650 3200 7400 3200
+Wire Wire Line
+	7400 3200 7400 5750
+Wire Wire Line
+	7400 5750 7150 5750
+Wire Wire Line
+	6650 3000 7350 3000
+Wire Wire Line
+	7350 3000 7350 5450
+Wire Wire Line
+	7350 5450 7150 5450
+Wire Wire Line
+	6650 2500 6850 2500
+Wire Wire Line
+	6850 2500 6850 4450
+Wire Wire Line
+	6650 2800 7450 2800
+Wire Wire Line
+	7450 2800 7450 5850
+Wire Wire Line
+	7450 5850 7150 5850
+Wire Wire Line
+	6650 2900 7300 2900
+Wire Wire Line
+	7300 2900 7300 5550
+Wire Wire Line
+	7300 5550 7150 5550
+NoConn ~ 6750 4450
+NoConn ~ 7150 4850
+NoConn ~ 7150 4950
+NoConn ~ 7150 5250
+NoConn ~ 7150 5650
+NoConn ~ 7150 5950
+NoConn ~ 7150 6050
+NoConn ~ 6150 4850
+NoConn ~ 6150 4950
+NoConn ~ 6150 5050
+NoConn ~ 6150 5150
+NoConn ~ 6150 6050
+NoConn ~ 6150 6150
+Wire Wire Line
+	6750 6450 6750 4450
+Wire Wire Line
+	6750 3100 6650 3100
+Connection ~ 6750 4450
+Wire Wire Line
+	6750 4450 6750 3100
+Wire Wire Line
+	6650 2600 5500 2600
+Wire Wire Line
+	5500 6450 6650 6450
+Wire Wire Line
+	5500 2600 5500 6450
+Wire Wire Line
+	6650 2700 6350 2700
+Wire Wire Line
+	6350 2700 6350 4450
+Wire Wire Line
+	6350 4450 6550 4450
+$Comp
+L Device:R R?
+U 1 1 5DB910AF
+P 9450 5300
+F 0 "R?" H 9520 5346 50  0000 L CNN
+F 1 "R" H 9520 5255 50  0000 L CNN
+F 2 "" V 9380 5300 50  0001 C CNN
+F 3 "~" H 9450 5300 50  0001 C CNN
+	1    9450 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x08 J?
+U 1 1 5DB913E3
+P 10200 4750
+F 0 "J?" H 10280 4742 50  0000 L CNN
+F 1 "Conn_01x08" H 10280 4651 50  0000 L CNN
+F 2 "" H 10200 4750 50  0001 C CNN
+F 3 "~" H 10200 4750 50  0001 C CNN
+	1    10200 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DB9716C
+P 9050 3900
+F 0 "R?" H 9120 3946 50  0000 L CNN
+F 1 "R" H 9120 3855 50  0000 L CNN
+F 2 "" V 8980 3900 50  0001 C CNN
+F 3 "~" H 9050 3900 50  0001 C CNN
+	1    9050 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DB9777C
+P 9050 3600
+F 0 "R?" H 9120 3646 50  0000 L CNN
+F 1 "R" H 9120 3555 50  0000 L CNN
+F 2 "" V 8980 3600 50  0001 C CNN
+F 3 "~" H 9050 3600 50  0001 C CNN
+	1    9050 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DB98608
+P 9050 4200
+F 0 "R?" H 9120 4246 50  0000 L CNN
+F 1 "R" H 9120 4155 50  0000 L CNN
+F 2 "" V 8980 4200 50  0001 C CNN
+F 3 "~" H 9050 4200 50  0001 C CNN
+	1    9050 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DB98A26
+P 9450 5600
+F 0 "R?" H 9520 5646 50  0000 L CNN
+F 1 "R" H 9520 5555 50  0000 L CNN
+F 2 "" V 9380 5600 50  0001 C CNN
+F 3 "~" H 9450 5600 50  0001 C CNN
+	1    9450 5600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DB99153
+P 9450 5000
+F 0 "R?" H 9520 5046 50  0000 L CNN
+F 1 "R" H 9520 4955 50  0000 L CNN
+F 2 "" V 9380 5000 50  0001 C CNN
+F 3 "~" H 9450 5000 50  0001 C CNN
+	1    9450 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DB99B48
+P 9050 4500
+F 0 "R?" H 9120 4546 50  0000 L CNN
+F 1 "R" H 9120 4455 50  0000 L CNN
+F 2 "" V 8980 4500 50  0001 C CNN
+F 3 "~" H 9050 4500 50  0001 C CNN
+	1    9050 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10000 4450 10000 3750
+Wire Wire Line
+	10000 3750 9050 3750
+Connection ~ 9050 3750
+Wire Wire Line
+	10000 4550 9900 4550
+Wire Wire Line
+	9900 4550 9900 4050
+Wire Wire Line
+	9900 4050 9050 4050
+Connection ~ 9050 4050
+Wire Wire Line
+	10000 4650 9850 4650
+Wire Wire Line
+	9850 4650 9850 4350
+Wire Wire Line
+	9850 4350 9050 4350
+Connection ~ 9050 4350
+Wire Wire Line
+	10000 4750 9050 4750
+Wire Wire Line
+	9050 4750 9050 4650
+Wire Wire Line
+	10000 4850 9450 4850
+Wire Wire Line
+	10000 4950 9600 4950
+Wire Wire Line
+	9600 4950 9600 5150
+Wire Wire Line
+	9600 5150 9450 5150
+Connection ~ 9450 5150
+Wire Wire Line
+	10000 5050 9650 5050
+Wire Wire Line
+	9650 5050 9650 5450
+Wire Wire Line
+	9650 5450 9450 5450
+Connection ~ 9450 5450
+Wire Wire Line
+	10000 5150 9700 5150
+Wire Wire Line
+	9700 5150 9700 5750
+Wire Wire Line
+	9700 5750 9450 5750
+Connection ~ 9450 5750
+Connection ~ 6850 4450
+Wire Wire Line
+	6850 4450 8600 4450
+Wire Wire Line
+	8600 4450 8600 5750
+Wire Wire Line
+	8600 5750 9450 5750
+Wire Wire Line
+	9050 3450 7600 3450
+Wire Wire Line
+	7600 3450 7600 6450
+Wire Wire Line
+	7600 6450 6750 6450
+Connection ~ 6750 6450
+Wire Wire Line
+	9050 3750 7700 3750
+Wire Wire Line
+	7700 3750 7700 6150
+Wire Wire Line
+	7700 6150 7150 6150
+Text GLabel 9400 5600 0    50   Input ~ 0
+R1
+Text GLabel 9400 5300 0    50   Input ~ 0
+R2
+Text GLabel 9400 5000 0    50   Input ~ 0
+R3
+Text GLabel 9000 4500 0    50   Input ~ 0
+R4
+Text GLabel 9000 4200 0    50   Input ~ 0
+R5
+Text GLabel 9000 3900 0    50   Input ~ 0
+R6
+Text GLabel 9000 3600 0    50   Input ~ 0
+R7
+$EndSCHEMATC
