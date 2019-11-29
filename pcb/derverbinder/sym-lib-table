@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name derverbinder-rescue)(type Legacy)(uri ${KIPRJMOD}/derverbinder-rescue.lib)(options "")(descr ""))
+)
