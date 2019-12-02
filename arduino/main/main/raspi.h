@@ -22,6 +22,7 @@
 
 unsigned char _BUFFER[256 + 1];  // for setting the last byte to zero
 
+
 int _receive_one() {
     int length = 0;
     while (true) {
@@ -75,6 +76,7 @@ void _receive_and_decode() {
             _BUFFER[length] = 0;
 	    DURATION = &_BUFFER[colon_pos + 1];
 	    break;
+      
 
 	case RTA_EASTEREGG:
 	    OWN_PADDLE_LOCATION = _BUFFER[1];
@@ -110,7 +112,7 @@ void send(char kind, String s = "") {
         }
 	_send_one(i + 1);
     }
-    _receive_and_decode();
+    //_receive_and_decode();
 }
 
 void send_nothing() {
