@@ -1,16 +1,17 @@
-´´´
-Farbe auf keypad stecker
-1 Gelb
-2 Schwarz
-3 Orange
-4 Lila
-5 Blau
-6 Rot
-7 Braun
-8 Grün
-´´´
+## Farbe auf keypad stecker
+
+- 1 Gelb
+- 2 Schwarz
+- 3 Orange
+- 4 Lila
+- 5 Blau
+- 6 Rot
+- 7 Braun
+- 8 Grün
+
+
 |Taste|Pinnummern|Wert(obsolet)|
-|---|---|
+|---|---|---|
 |N1|45|277|
 |N2|35|352|
 |N3|25|527|
